@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setelan waktu Anda terlalu lambat</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #202124;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 540px;
+      width: 100%;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+      color: #5f6368;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      color: #202124;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #5f6368;
+      margin-bottom: 16px;
+    }
+
+    .time-box {
+      background-color: #f1f3f4;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #3c4043;
+      margin-bottom: 24px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: #1a73e8;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: #1557b0;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: #1a73e8;
+      border: 1px solid #dadce0;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f1f3f4;
+    }
+
+    .error-code {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #80868b;
+      letter-spacing: 0.5px;
+    }
+
+    .guide-modal {
+      display: none;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #e8eaed;
+      font-size: 14px;
+      color: #3c4043;
+    }
+
+    .guide-modal ul {
+      margin-left: 20px;
+      margin-top: 8px;
+    }
+
+    .guide-modal li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+        <div class="icon">🕒</div>
+
+    <h1>Setelan waktu Anda terlalu lambat</h1>
+    <p>
+      Koneksi pribadi ke situs ini tidak dapat dibuat karena tanggal dan waktu di perangkat Anda salah.
+    </p>
+
+    <div class="time-box">
+      <strong>Waktu perangkat saat ini:</strong> <span id="device-time">Memuat...</span>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="bukaPengaturanWaktu()">Perbarui tanggal dan waktu</button>
+      <button class="btn-secondary" onclick="location.reload()">Muat ulang</button>
+    </div>
+
+    <div id="manual-guide" class="guide-modal">
+      <strong>Cara mengatur waktu secara manual:</strong>
+      <ul>
+        <li><strong>Windows:</strong> Klik kanan jam di pojok kanan bawah > <em>Adjust date and time</em> > Aktifkan <em>Set time automatically</em>.</li>
+        <li><strong>Android / iOS:</strong> Buka <em>Pengaturan</em> > <em>Sistem / Umum</em> > <em>Tanggal & Waktu</em> > Aktifkan waktu otomatis.</li>
+        <li><strong>macOS:</strong> Buka <em>System Settings</em> > <em>General</em> > <em>Date & Time</em>.</li>
+      </ul>
+    </div>
+
+    <div class="error-code">NET::ERR_CERT_DATE_INVALID</div>
+  </div>
+
+  <script>
+    // Menampilkan waktu perangkat secara real-time
+    function updateClock() {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', year: 'numeric', month: 'long', 
+        day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' 
+      };
+      document.getElementById('device-time').textContent = now.toLocaleDateString('id-ID', options);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Fungsi tombol pengaturan waktu
+    function bukaPengaturanWaktu() {
+      // Mencoba membuka pengaturan waktu khusus sistem operasi Windows
+      window.location.href = "ms-settings:dateandtime";
+
+      // Menampilkan panduan manual jika browser/OS tidak mendukung skema ms-settings (misal di HP/Mac)
+      setTimeout(() => {
+        document.getElementById('manual-guide').style.display = 'block';
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
